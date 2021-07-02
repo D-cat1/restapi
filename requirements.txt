@@ -1,0 +1,6 @@
+beautifulsoup4
+cloudscraper
+fastapi
+requests
+uvicorn[standard]
+youtube-dl

@@ -1,12 +1,14 @@
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse, RedirectResponse
+from requests.api import get
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.responses import Response
 from module.jagokata import jagokatarnd
 from module.direct import mediafire, zippyshare, anonfiles, sfile
-from module.ytdownload import youtube
+from module.ytdownload import youtube, youtube_autodirectmusik
 from module.islamic import suratJSON
+from module.nettool import whoiss, dns_lookup
 
 
 def generate_error(code):
@@ -53,6 +55,10 @@ tags_metadata = [
     {
         "name": "Surat",
         "description": "menampilkan surat sesusai nomor surat",
+    },
+    {
+        "name": "Tool",
+        "description": "whois, DNS Lookup",
     },
     
 ]
@@ -132,11 +138,31 @@ def info_media_dan_link_download(link):
     aer = youtube(link)
     return aer
 
+@app.get("/ytmusik", tags=["Media Ekstrak"])
+def direct_audio_stream_youtube(linkyt):
+    filter = linkyt.startswith("https://www.youtube.com") or linkyt.startswith("https://youtube.com")
+    filter2 = linkyt.startswith("https://youtu.be")
+    if filter or filter2:
+        getdirek = youtube_autodirectmusik(linkyt)
+        if getdirek['error']:
+            return getdirek
+        else:
+            return RedirectResponse(getdirek['url'])
+    else:
+        return HTMLResponse(content=generate_error(422), status_code=422)
+
 
 @app.get("/surat/{nomorsurat}", tags=["Surat"])
 def menampilkan_surat_sesuai_nomor_surat(nomorsurat: int):
     return suratJSON(nomorsurat)
 
+@app.get("/tool/whois", tags=["Tool"])
+def menampilkan_whois_domain(domain: str):
+    return whoiss(domain)
+
+@app.get("/tool/dns_look", tags=["Tool"])
+def untuk_dns_lookup_domain(domain: str):
+    return dns_lookup(domain)
 
 
 

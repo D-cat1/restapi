@@ -25,3 +25,20 @@ def youtube(link):
         result = ansi_escape.sub('', str(e))
         error = {'error': True, 'Reason': result.split(';')[0]}
         return error
+
+def youtube_autodirectmusik(linkyt):
+    jsonreturn = dict()
+    jsonreturn['error'] = False
+    if "playlist" not in linkyt:
+        getjsonyt = youtube(linkyt)
+        for audioget in getjsonyt["formats"]:
+            if audioget['ext'] == 'm4a':
+                jsonreturn['url'] = audioget["url"]
+        return jsonreturn
+    else:
+        jsonreturn['error'] = True
+        jsonreturn['alasan'] = 'tidak support playlist'
+        return jsonreturn
+
+
+youtube_autodirectmusik('https://youtu.be/NiDdBUPASRI')

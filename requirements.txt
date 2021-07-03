@@ -4,3 +4,4 @@ fastapi
 requests
 uvicorn[standard]
 youtube-dl
+python-whois

@@ -22,3 +22,4 @@ def dns_lookup(url):
         return domain_dns
    except Exception as emror:
         return emror
+

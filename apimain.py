@@ -9,6 +9,8 @@ from module.direct import mediafire, zippyshare, anonfiles, sfile
 from module.ytdownload import youtube, youtube_autodirectmusik
 from module.islamic import suratJSON
 from module.nettool import whoiss, dns_lookup
+from module.quote import genapimage, unsplash
+from typing import Optional
 
 
 def generate_error(code):
@@ -79,7 +81,11 @@ def redirect_ke_dokumen_ini():
     return RedirectResponse("/dokumentasi")
 
 @app.get("/katabijak", tags=["Kata - Kata Bijak"])
-def random_kata_bijak():
+def random_kata_bijak(gambar: bool = None):
+    if gambar:
+            quot = jagokatarnd()
+            quot['unsplash_url'] = unsplash()
+            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/png")
     return JSONResponse(content=jagokatarnd())
 
 @app.get("/direct/mediafire", tags=["Direct Link"])
@@ -163,7 +169,6 @@ def menampilkan_whois_domain(domain: str):
 @app.get("/tool/dns_look", tags=["Tool"])
 def untuk_dns_lookup_domain(domain: str):
     return dns_lookup(domain)
-
 
 
 

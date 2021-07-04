@@ -5,3 +5,4 @@ requests
 uvicorn[standard]
 youtube-dl
 python-whois
+pillow

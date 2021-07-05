@@ -1,3 +1,4 @@
+from os import link
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse, RedirectResponse
@@ -81,8 +82,12 @@ def redirect_ke_dokumen_ini():
     return RedirectResponse("/dokumentasi")
 
 @app.get("/katabijak", tags=["Kata - Kata Bijak"])
-def random_kata_bijak(gambar: bool = None):
-    if gambar:
+def random_kata_bijak(gambar: bool = None, linkmage: str = None):
+    if gambar and linkmage is not None:
+            quot = jagokatarnd()
+            quot['unsplash_url'] = linkmage
+            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/png")
+    elif gambar:
             quot = jagokatarnd()
             quot['unsplash_url'] = unsplash()
             return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/png")

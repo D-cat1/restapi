@@ -122,8 +122,9 @@ def genapimage(quote, nama, image):
     
     # generates the quote image
     dataio = generate_image_with_quote(input_image.raw, quote, quote_by, font_style)
+    print(dataio)
     return dataio
 
 def unsplash():
-   randimage = requests.head('https://source.unsplash.com/1080x1350/?minimalist,background')
+   randimage = requests.head('https://source.unsplash.com/1080x1350/?minimalist')
    return randimage.headers["location"]

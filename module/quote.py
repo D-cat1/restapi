@@ -107,7 +107,7 @@ def generate_image_with_quote(input_image, quote, quote_by, font_style):
     # now it is time to draw the quote on our image and save it
     image = draw_text(image, output, font_style)
     output = io.BytesIO()
-    image.save(output, format='PNG')
+    image.save(output, format='JPEG')
     return output.getvalue()
 
 

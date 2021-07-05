@@ -86,11 +86,11 @@ def random_kata_bijak(gambar: bool = None, linkmage: str = None):
     if gambar and linkmage is not None:
             quot = jagokatarnd()
             quot['unsplash_url'] = linkmage
-            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/png")
+            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/jpg")
     elif gambar:
             quot = jagokatarnd()
             quot['unsplash_url'] = unsplash()
-            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/png")
+            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/jpg")
     return JSONResponse(content=jagokatarnd())
 
 @app.get("/direct/mediafire", tags=["Direct Link"])

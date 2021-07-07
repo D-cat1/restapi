@@ -85,7 +85,7 @@ def redirect_ke_dokumen_ini():
 def random_kata_bijak(gambar: bool = None, linkmage: str = None):
     if gambar and linkmage is not None:
             quot = jagokatarnd()
-            return Response(content=genapimage(quot["quote"], quot["author"], quot["unsplash_url"]), headers=quot, media_type="image/jpg")
+            return Response(content=genapimage(quot["quote"], quot["author"], linkmage), headers=quot, media_type="image/jpg")
     elif gambar:
             quot = jagokatarnd()
             return Response(content=genapimage(quot["quote"], quot["author"], unsplash()), headers=quot, media_type="image/jpg")

@@ -82,14 +82,29 @@ def redirect_ke_dokumen_ini():
     return RedirectResponse("/dokumentasi")
 
 @app.get("/katabijak", tags=["Kata - Kata Bijak"])
-def random_kata_bijak(gambar: bool = None, linkmage: str = None):
+def random_kata_bijak(gambar: bool = None, linkmage: str = None, quotecust: str = None):
     if gambar and linkmage is not None:
-            quot = jagokatarnd()
-            return Response(content=genapimage(quot["quote"], quot["author"], linkmage), headers=quot, media_type="image/jpg")
+            if quotecust is not None and quotecust != "":
+                author = quotecust.split('~')
+                if len(author) <= 1:
+                    return Response(content=genapimage(quotecust, "anonim", linkmage), media_type="image/jpg")
+                else:
+                    return Response(content=genapimage(author[0], author[1], linkmage), media_type="image/jpg")    
+            else:
+                quot = jagokatarnd()
+                return Response(content=genapimage(quot["quote"], quot["author"], linkmage), headers=quot, media_type="image/jpg")
     elif gambar:
-            quot = jagokatarnd()
-            return Response(content=genapimage(quot["quote"], quot["author"], unsplash()), headers=quot, media_type="image/jpg")
-    return JSONResponse(content=jagokatarnd())
+            if quotecust is not None and quotecust != "":
+                author = quotecust.split('~')
+                if len(author) <= 1:
+                    return Response(content=genapimage(quotecust, 'anonim', unsplash()), media_type="image/jpg")
+                else:
+                    return Response(content=genapimage(author[0], author[1], unsplash()), media_type="image/jpg")    
+            else:
+                quot = jagokatarnd()
+                return Response(content=genapimage(quot["quote"], quot["author"], unsplash()), headers=quot, media_type="image/jpg")
+    else:
+        return JSONResponse(content=jagokatarnd())
 
 @app.get("/direct/mediafire", tags=["Direct Link"])
 def direct_link_dan_info_file_dari_mediafire(url):

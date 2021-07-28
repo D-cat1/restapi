@@ -39,6 +39,3 @@ def youtube_autodirectmusik(linkyt):
         jsonreturn['error'] = True
         jsonreturn['alasan'] = 'tidak support playlist'
         return jsonreturn
-
-
-youtube_autodirectmusik('https://youtu.be/NiDdBUPASRI')

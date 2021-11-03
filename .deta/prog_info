@@ -1,1 +1,0 @@
-{"id":"3748f6da-8587-43b1-8e06-3c62fe1b1ea3","space":10283,"runtime":"python3.7","name":"multiRestApi","path":"3elyih","project":"b07uk99j","account":"144798365827","region":"us-east-1","deps":["beautifulsoup4","cloudscraper","fastapi","requests","youtube-dl","python-whois","pillow"],"envs":null,"public":true,"log_level":"debug","cron":""}

@@ -1,8 +1,6 @@
-from os import link
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse, RedirectResponse
-from requests.api import get
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.responses import Response
 from module.jagokata import jagokatarnd
@@ -11,7 +9,8 @@ from module.ytdownload import youtube, youtube_autodirectmusik
 from module.islamic import suratJSON
 from module.nettool import whoiss, dns_lookup
 from module.quote import genapimage, unsplash
-from typing import Optional
+from module.ephoto import generate_selective, gen
+import requests
 
 
 def generate_error(code):
@@ -46,6 +45,10 @@ tags_metadata = [
     {
         "name": "Kata - Kata Bijak",
         "description": "menampilkan kata - kata bijak secara random",
+    },    
+    {
+        "name": "fun",
+        "description": "ya sesuai namanya lah",
     },
     {
         "name": "Direct Link",
@@ -117,6 +120,43 @@ def direct_link_dan_info_file_dari_mediafire(url):
     else:
         return HTMLResponse(content=generate_error(422), status_code=422)
 
+@app.get("/ephoto/text-effect", tags=["fun"])
+def membuat_text_berrefect_dengan_ephoto(id: str, text: str, opsi: str=None):
+    dataid = generate_selective(id)
+    if dataid["found"]:
+        if len(dataid["radio_input"]) > 0 and opsi is not None:
+            ceklengtharray = text.split(';')
+            if len(dataid['text_input']) == len(ceklengtharray):
+                generate = gen(id=id, text=text, radio=opsi)
+                if generate["success"]:
+                    data = requests.get(generate["fullsize_image"]).content
+                    return Response(content=data, media_type="image/jpg")
+                else:
+                    return {'error': True}
+            else:
+                if len(dataid['text_input']) > len(ceklengtharray):
+                    return {'error': True, 'reason': 'argumen text yang diberikan {} sedangkan yang dibutuhkan adalah {}'.format(len(ceklengtharray), len(dataid['text_input']))}
+                elif len(dataid['text_input']) < len(ceklengtharray):
+                    return {'error': True, 'reason': 'argumen text yang diberikan {} sedangkan yang dibutuhkan adalah {}'.format(len(ceklengtharray), len(dataid['text_input']))}
+        else:
+            ceklengtharray = text.split(';')
+            if len(dataid['text_input']) == len(ceklengtharray):
+                generate = gen(id=id, text=text)
+                if generate["success"]:
+                    data = requests.get(generate["fullsize_image"]).content
+                    return Response(content=data, media_type="image/jpg")
+                else:
+                    return {'error': True}
+            else:
+                if len(dataid['text_input']) > len(ceklengtharray):
+                    return {'error': True, 'reason': 'argumen text yang diberikan {} sedangkan yang dibutuhkan adalah {}'.format(len(ceklengtharray), len(dataid['text_input']))}
+                elif len(dataid['text_input']) < len(ceklengtharray):
+                    return {'error': True, 'reason': 'argumen text yang diberikan {} sedangkan yang dibutuhkan adalah {}'.format(len(ceklengtharray), len(dataid['text_input']))}
+    else:
+        return HTMLResponse(content=generate_error(422), status_code=422)
+        
+        
+
 @app.get("/direct/zippyshare", tags=["Direct Link"])
 def direct_link_dan_info_file_dari_zipppyshare(url):
     fixurl = url.split('?')[0]
@@ -126,7 +166,6 @@ def direct_link_dan_info_file_dari_zipppyshare(url):
     else:
         bangsc[0].startswith('http')
         get_domain = bangsc[1].split('.')[1].startswith('zippyshare')
-        print(get_domain)
         if filtersch and get_domain:
             getdirek = zippyshare(fixurl)
             return getdirek

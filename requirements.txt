@@ -2,7 +2,7 @@ beautifulsoup4
 cloudscraper
 fastapi
 requests
-youtube-dl
+yt-dlp
 python-whois
 pillow
 uvicorn[standard]

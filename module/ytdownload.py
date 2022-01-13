@@ -1,4 +1,4 @@
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 import re
 
 # 7-bit C1 ANSI sequences

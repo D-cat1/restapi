@@ -5,5 +5,4 @@ requests
 yt-dlp
 python-whois
 pillow
-uvicorn[standard]
 requests

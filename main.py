@@ -203,7 +203,7 @@ def info_media_dan_link_download(link):
 
 @app.get("/ytmusik", tags=["Media Ekstrak"])
 def direct_audio_stream_youtube(linkyt):
-    filter = linkyt.startswith("https://www.youtube.com") or linkyt.startswith("https://youtube.com")
+    filter = linkyt.startswith("https://www.youtube.com") or linkyt.startswith("https://youtube.com") or linkyt.startswith("https://music.youtube.com")
     filter2 = linkyt.startswith("https://youtu.be")
     if filter or filter2:
         getdirek = youtube_autodirectmusik(linkyt)
